@@ -9,14 +9,12 @@ public class Player : MonoBehaviour
     
     void Update () {
         float h = Input.GetAxis("Horizontal");
-        float v = Input.GetAxis("Vertical");
-        if(h!=0 || v!=0) {
-            Vector3 targetDirection = new Vector3(h, 0f, v);
+        if(h!=0) {
+            Vector3 targetDirection = new Vector3(h, 0f, 0f);
             targetDirection = Camera.main.transform.TransformDirection(targetDirection);
             targetDirection.y = 0.0f;
             Quaternion targetRotation = Quaternion.LookRotation(targetDirection, Vector3.up);
             this.transform.rotation = targetRotation;
-            this.transform.position += Vector3.ProjectOnPlane(Camera.main.transform.forward, Vector3.up) * v * Time.deltaTime * kecepatan;
             this.transform.position += Vector3.ProjectOnPlane(Camera.main.transform.right, Vector3.up) * h * Time.deltaTime * kecepatan;
             this.GetComponent<Animator>().SetBool("isWalking", true);
         } else {
