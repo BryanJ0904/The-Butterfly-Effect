@@ -17,7 +17,8 @@ public class Player : MonoBehaviour
         if(!gameManager.onDialog){
             PlayerMovement();
         }else{
-
+            this.GetComponent<Animator>().SetBool("isRunning", false);
+            this.GetComponent<Animator>().SetBool("isWalking", false);
         }
     }
 
