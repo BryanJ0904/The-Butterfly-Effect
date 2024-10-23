@@ -5,12 +5,14 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     private GameManager gameManager;
-    Vector3 maju = Vector3.zero;
-    float kecepatan = 3f;
+    private Vector3 maju = Vector3.zero;
+    private float kecepatan = 3f;
+    private AudioSource footstep;
 
     void Start()
     {
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        footstep = GetComponent<AudioSource>();
     }
     
     void Update () {
@@ -33,13 +35,22 @@ public class Player : MonoBehaviour
             this.transform.position += Vector3.ProjectOnPlane(Camera.main.transform.right, Vector3.up) * h * Time.deltaTime * kecepatan;
             if(Input.GetKey(KeyCode.LeftShift)){
                 kecepatan = 5.0f;
+                footstep.pitch = 1.25f;
                 this.GetComponent<Animator>().SetBool("isRunning", true);
             }else{
                 kecepatan = 3.0f;
+                footstep.pitch = 1f;
                 this.GetComponent<Animator>().SetBool("isRunning", false);
+            }
+
+            if (!footstep.isPlaying) {
+                    footstep.Play();
             }
             this.GetComponent<Animator>().SetBool("isWalking", true);
         } else {
+            if (footstep.isPlaying) {
+                    footstep.Stop();
+            }
             this.GetComponent<Animator>().SetBool("isWalking", false);
         }
     }
